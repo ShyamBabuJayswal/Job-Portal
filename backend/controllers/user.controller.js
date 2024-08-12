@@ -109,4 +109,55 @@ export const logout = async(req,res)=>{
         console.log(error);
     }
 }
+
+export const updateProfile=async(req,res)=>{
+    try {
+        const {fullname,email,phoneNUmber,bio,skills}=req.body;
+        const file = req.file;
+        if(!fullname || !email || !phoneNumber || !bio  || !skills){
+            return res.status(404)
+            .json({
+             message:"Something is missing",
+             success:false
+            })
+        }
+        // cloudnary link
+
+        const skillsArray = skills.split(",");
+        const userId = req.id;//middleware authenication
+        let user = await User.findById(userId);
+        if(!user){
+            return res.status(400).json({
+                  
+            })
+        }
+
+        //updating data
+        user.fullname = fullname
+        user.email = email
+        user.phoneNumber = phoneNumber
+        user.profile.bio = bio
+        user.profile.skills = skillsArray
+        //resume comes later here...
+
+        await User.save();
+        user = {
+            id : _id,
+            fullname:user.fullname,
+            email:user.email,
+            phoneNumber:user.phoneNumber,
+            role:user.role,
+            profile:user.profile,
+
+
+        }
+        return res.status(200).json({
+            message:"Profile updated succesfully",
+            user,
+            success:true
+        })
+    } catch (error) {
+        console.log(error);
+    }
+}
     
