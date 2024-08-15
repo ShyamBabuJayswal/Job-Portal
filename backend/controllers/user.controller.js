@@ -121,6 +121,7 @@ export const login = async (req, res) => {
             sameSite: 'strict',
         }).json({
             message: `Welcome back ${user.fullname}`,
+            user,
             success: true,
         });
     } catch (error) {
@@ -153,16 +154,13 @@ export const updateProfile = async (req, res) => {
     try {
         const { fullname, email, phoneNumber, bio, skills } = req.body;
 
-        // Validation checks
-        if (!fullname || !email || !phoneNumber || !bio || !skills) {
-            return res.status(404).json({
-                message: "Something is missing",
-                success: false,
-            });
-        }
+        const file =req.file;
+
 
         // Split skills into an array
-        const skillsArray = skills.split(",");
+        let skillsArray;
+        if(skills){
+         skillsArray = skills.split(",");}
 
         // Get user ID from authenticated request
         const userId = req.id;
@@ -175,11 +173,13 @@ export const updateProfile = async (req, res) => {
         }
 
         // Update user data
-        user.fullname = fullname;
-        user.email = email;
-        user.phoneNumber = phoneNumber;
-        user.profile.bio = bio;
-        user.profile.skills = skillsArray;
+
+        if(fullname) user.fullname=fullname
+        if(email) user.email=email
+        if(phoneNumber) user.phoneNumber=phoneNumber
+        if(bio) user.profile.bio=bio
+        if(skills) user.profile.skills=skillsArray
+        
 
         // Save updated user
         await user.save();
