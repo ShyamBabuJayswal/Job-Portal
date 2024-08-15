@@ -42,11 +42,29 @@ export const getCompany = async(req,res)=>{
         const companies=await Company.find({userId});
         if(!companies){
             return res.status(404).json({
-                message:"Company not found",
+                message:"Companies not found",
                 success:false
             })
         }
     } catch (error) {
       console.log(error);  
+    }
+}
+export const getCompanyById = async(req,res)=>{
+    try {
+       const CompanyId = req.param.id;
+       const company = await Company.findById(companyId); 
+       if(!company){
+        return res.status(404).json({
+            message:"Companies not found",
+            success:false
+        });
+       }
+       return res.status(200).json({
+        company,
+        success:true,
+       })
+    } catch (error) {
+       console.log(error); 
     }
 }
