@@ -68,3 +68,5 @@ export const getCompanyById = async(req,res)=>{
        console.log(error); 
     }
 }
+
+exports const updateCompnay 
