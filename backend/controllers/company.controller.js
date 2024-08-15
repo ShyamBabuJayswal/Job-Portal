@@ -69,4 +69,28 @@ export const getCompanyById = async(req,res)=>{
     }
 }
 
-exports const updateCompnay 
+export const updateCompnay = async (req,res)  =>{
+    try {
+       const {name,descripton,website,location}=req.body;
+       const file =req.file;
+       //cloudnary
+       
+       const updateData={name,description,website,location};
+
+       const company =await Company.findByIdAndUpdate(req.params.id,updateData,{new:true});
+       if(!company){
+        return res.status(400).json({
+            message:"Company not found",
+            success:false
+        })
+       }
+       return res.status(200).json({
+        message:"Company information  updated successfully",
+        success:true
+       })
+
+    } catch (error) {
+       console.log(error);
+        
+    }
+}
