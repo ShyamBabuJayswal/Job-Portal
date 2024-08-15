@@ -1,22 +1,22 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
-   fullName: {
+   fullname: {
       type: String,
-      require: true
+      required: true  // Corrected "require" to "required"
    },
    email: {
       type: String,
-      require: true,
+      required: true, // Corrected "require" to "required"
       unique: true
    },
    phoneNumber: {
       type: Number,
-      require: true
+      required: true  // Corrected "require" to "required"
    },
    password: {
       type: String,
-      require: true
+      required: true  // Corrected "require" to "required"
    },
    role: {
       type: String,
@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema({
       }],
       resume: {
          type: String,
-         //url of resume file
+         // URL of resume file
       },
       resumeOriginalName: {
          type: String
@@ -43,10 +43,9 @@ const userSchema = new mongoose.Schema({
       },
       profilePhoto: {
          type: String,
-         defult: ""
+         default: ""  // Corrected "defult" to "default"
       }
    }
-
 },
 {
    timestamps: true
