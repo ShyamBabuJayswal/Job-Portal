@@ -1,39 +1,39 @@
 
 import {Company} from "../models/company.model.js"
-export const registerCompany =async(req,res)=>{
-     try {
-        const {companyName} = req.body;
-        if(!companyName){
-            return res.status(400).json({
-                message:"Company name is required",
-                success:false
-            });
-        }
-        let company = await Company.findOne({name:companyName});
-        if(company){
-            return res.status(400).json({
-              message:"You can't register same company",
-              sucess:false,
-            });
-            
-        }
-        company =await Company.create({
-            name:company.name,
-            userId:req.id,
-
-      } );
-    
+export const registerCompany = async (req, res) => {
+    try {
+      const { companyName } = req.body;
+      if (!companyName) {
+        return res.status(400).json({
+          message: "Company name is required",
+          success: false,
+        });
+      }
+      let company = await Company.findOne({ name: companyName });
+      if (company) {
+        return res.status(400).json({
+          message: "You can't register the same company",
+          success: false,
+        });
+      }
+      company = await Company.create({
+        name: companyName,
+        userId: req.id,
+      });
+  
       return res.status(201).json({
-        message:"Company registerd succesfully",
-        sucess:true,
-      })
-
-
-        
-     } catch (error) {
-       console.log(error); 
-     }
+        message: "Company registered successfully",
+        company,
+        success: true,
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        message: "Server error",
+        success: false,
+      });
     }
+  };
 
 
 export const getCompany = async(req,res)=>{
@@ -46,13 +46,17 @@ export const getCompany = async(req,res)=>{
                 success:false
             })
         }
+        return res.status(200).json({
+           companies,
+           success:true 
+        })
     } catch (error) {
       console.log(error);  
     }
 }
 export const getCompanyById = async(req,res)=>{
     try {
-       const CompanyId = req.param.id;
+       const companyId = req.params.id;
        const company = await Company.findById(companyId); 
        if(!company){
         return res.status(404).json({
@@ -71,7 +75,7 @@ export const getCompanyById = async(req,res)=>{
 
 export const updateCompnay = async (req,res)  =>{
     try {
-       const {name,descripton,website,location}=req.body;
+       const {name,description,website,location}=req.body;
        const file =req.file;
        //cloudnary
        

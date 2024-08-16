@@ -17,7 +17,7 @@ const companySchema=new mongoose.Schema(
        },
        location:{
         type:String,
-        required:true,
+        
        },
        logo:{
         type:String, //url to company logo
