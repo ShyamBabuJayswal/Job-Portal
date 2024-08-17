@@ -1,11 +1,11 @@
-import Job from "../models/job.model.js";
+import  {Job} from "../models/job.model.js";
 
 
 export const postJob=async(req,res) =>{
     try {
-    const{title,description,requirement,salary,location,jobType,experience,position,companyId} = req.body;
+    const{title,description,requirements,salary,location,jobType,experience,position,companyId} = req.body;
     const userId=req.id;
-    if(!title || !description ||!requirement || !salary|| !location || !jobType || !experience || !position || !companyId){
+    if(!title || !description ||!requirements || !salary|| !location || !jobType || !experience || !position || !companyId){
        return res.status(400).json({
         message:"Something is missing",
         success:false
@@ -20,8 +20,8 @@ export const postJob=async(req,res) =>{
     jobType,
     experienceLevel:experience,
     position,
-    company:conpanyId,
-    created_by:userId,
+    company:companyId,
+    createdBy:userId,
 
     });
     return res.status(201).json({
@@ -45,17 +45,19 @@ export const getAllJobs=async(req,res)=>{
          {description:{$regex:keyword, $options:"i"}},
             ]
         };
-        const jobs=await Job.find(query);
-         if(!jobs){
+        const jobs=await Job.find(query).populate({
+            path:"company"
+        }).sort({createdAt:-1});
+         if(!jobs || jobs.length === 0){
             return res.status(404).json({
-                message:"JObs NOt Found",
+                message:"Jobs NOt Found",
                 success:false,
             })
          }
-         return res.json(200).json({
-         jobs,
-        success:true
-         })
+         return res.status(200).json({  
+            jobs,
+            success: true,
+          });
     } catch (error) {
         console.log(error);
         
@@ -90,7 +92,7 @@ export const getJobById =async(req,res)=>{
 export const getAdminJobs =async(req, res) =>{
     try {
        const adminId=req.id;
-       const jobs=await Job.find({created_by:adminId});
+       const jobs=await Job.find({createdBy:adminId});
        if(!jobs){
         return res.status(400).json({
             message:"Jobs not found",
