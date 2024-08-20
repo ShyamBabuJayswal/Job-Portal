@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+      "baseUrl": ".", // Root directory
+      "paths": {
+        "@/*": ["./src/*"] // Maps @/ to src/
+      }
+    },
+    "include": ["src/**/*"], // Includes everything inside src/
+    "exclude": ["node_modules"] // Excludes node_modules directory
+  }
+  
