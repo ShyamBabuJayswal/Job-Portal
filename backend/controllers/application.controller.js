@@ -13,7 +13,7 @@ export const applyJob=async(req,res)=>{
         })
       };
       //check if the user has already apply for the job
-      const existingApplication=await application.findOne({
+      const existingApplication=await Application.findOne({
         job:jobId,applicant:userId
       });
 
@@ -31,11 +31,11 @@ export const applyJob=async(req,res)=>{
         })
       }
       //create a new Application
-      const newApplication=await application.create({
+      const newApplication=await Application.create({
         job:jobId,
         applicant:userId,
       })
-      job.application.push(newApplication._id);
+      job.applications.push(newApplication._id);
       await job.save();
       return res.status(201).json({
         message:"Job Applied Succesfully",
@@ -78,7 +78,7 @@ export const getAppliedJobs=async(req,res)=>{
 // admin see how manu user have applied for the job
 export const getApplicants =async(req,res)  => {
     try {
-      const jobId = res.params.id;  
+      const jobId = req.params.id;  
       const job= await Job.findById(jobId).populate({
         path:'applications',
         options:{sort:{createdAt:-1}},
