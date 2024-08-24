@@ -25,8 +25,16 @@ function Navbar() {
 
             !user ? (
               <div className='flex items-center gap-2'>
-                <Button className='bg-[#09b93ed3]' variant='outline'>Login</Button>
-                <Button className='bg-[#F83002] hover: bg-[#f70303ef]'>SignUp</Button>
+              <Link to='login'>
+              <Button className='bg-[#09b93ed3]' variant='outline'>Login</Button>
+              </Link>
+
+
+
+              <Link to='signup'>
+               <Button className='bg-[#F83002] hover: bg-[#f70303ef]'>SignUp</Button>
+              </Link>
+                
               </div>
             ):
           
