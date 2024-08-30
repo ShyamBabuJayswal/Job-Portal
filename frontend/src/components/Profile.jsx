@@ -60,7 +60,7 @@ function Profile() {
        
       </div>
       <div className='max-w-4xl mx-auto bg-white rounded-2xl'>
-            <h1>Applied Jobs</h1>
+            <h1 className='font-bold text-lg my-5'>Applied Jobs</h1>
             <AppliedJobTable/>
         </div>
     </div>
