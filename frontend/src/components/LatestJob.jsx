@@ -14,7 +14,7 @@ function LatestJob() {
 
                {
             randomJobs.slice(0,6).map((item, index) => 
-             <LatestJobCart/>
+             <LatestJobCart key={index}/>
             )
 
 
