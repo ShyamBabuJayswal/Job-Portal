@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Navbar from './shared/Navbar';
 import { Avatar, AvatarImage } from './ui/avatar';
 import { Button } from './ui/button';
-import { Badge, Contact, Mail, Pen } from 'lucide-react';
+import { Contact, Mail, Pen } from 'lucide-react';
 import { Label } from './ui/label';
 import AppliedJobTable from './AppliedJobTable';
+import UpdateProfileDialog from './UpdateProfileDailog';
 
 const skills = ["Html", "CSS", "JavaScript", "Java"];
+const isHaveResume = true;
 
 function Profile() {
-    const isHaveResume=true;
+  const [open, setOpen] = useState(false);
+
   return (
     <div>
       <Navbar />
@@ -24,7 +27,7 @@ function Profile() {
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
             </div>
           </div>
-          <Button className='text-right' variant='outline'><Pen /></Button>
+          <Button onClick={() => setOpen(true)} className='text-right' variant='outline'><Pen /></Button>
         </div>
         <div className='my-5'>
           <div className='flex items-center gap-3 my-2'>
@@ -39,30 +42,28 @@ function Profile() {
         <div>
           <h1 className='font-medium text-xl'>Skills</h1>
           <div className='flex items-center gap-2 mt-2'>
-            {
-              skills.map((item, index) => (
-                <span 
-                  key={index} 
-                  className="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-3 py-1 rounded-full"
-                >
-                  {item}
-                </span>
-              ))
-            }
+            {skills.map((item, index) => (
+              <span 
+                key={index} 
+                className="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-3 py-1 rounded-full"
+              >
+                {item}
+              </span>
+            ))}
           </div>
         </div>
         <div className='grid w-full max-w-sm items-center gap-1.5 my-5'>
-            <Label className='text-md font-bold'>Resume</Label>
-  {
-    isHaveResume? <a target='blank' href='https://www.google.com' className='text-blue-500 w-full cursor-pointer'>Shyam_Resume</a>:<span>NA</span>
-  }
+          <Label className='text-md font-bold'>Resume</Label>
+          {
+            isHaveResume ? <a target='blank' href='https://www.google.com' className='text-blue-500 w-full cursor-pointer'>Shyam_Resume</a> : <span>NA</span>
+          }
         </div>
-       
       </div>
       <div className='max-w-4xl mx-auto bg-white rounded-2xl'>
-            <h1 className='font-bold text-lg my-5'>Applied Jobs</h1>
-            <AppliedJobTable/>
-        </div>
+        <h1 className='font-bold text-lg my-5'>Applied Jobs</h1>
+        <AppliedJobTable />
+      </div>
+      <UpdateProfileDialog open={open} setOpen={setOpen} />
     </div>
   )
 }
