@@ -157,6 +157,8 @@ export const updateProfile = async (req, res) => {
 
         const file =req.file;
 
+        const fileUri = get
+
 
         // Split skills into an array
         let skillsArray;
