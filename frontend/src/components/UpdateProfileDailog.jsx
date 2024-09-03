@@ -64,7 +64,7 @@ function UpdateProfileDialog({ open, setOpen }) {
       toast.error(error.response.data.message);
     }
     setOpen(false);
-    console.log(input)
+  
   }
 
   return (

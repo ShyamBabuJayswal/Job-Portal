@@ -6,12 +6,15 @@ import { Contact, Mail, Pen } from 'lucide-react';
 import { Label } from './ui/label';
 import AppliedJobTable from './AppliedJobTable';
 import UpdateProfileDialog from './UpdateProfileDailog';
+import { useSelector } from 'react-redux';
+import { Badge } from './ui/badge';
 
 const skills = ["Html", "CSS", "JavaScript", "Java"];
 const isHaveResume = true;
 
 function Profile() {
   const [open, setOpen] = useState(false);
+  const {user} = useSelector((state) => state.auth);
 
   return (
     <div>
@@ -23,8 +26,8 @@ function Profile() {
               <AvatarImage src="https://wallpapers.com/images/hd/cool-profile-pictures-panda-man-gsl2ntkjj3hrk84s.jpg" />
             </Avatar>
             <div>
-              <h1 className='font-medium text-xl'>Full Name</h1>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
+              <h1 className='font-medium text-xl'>{user?.fullname}</h1>
+              <p>{user?.profile?.bio}</p>
             </div>
           </div>
           <Button onClick={() => setOpen(true)} className='text-right' variant='outline'><Pen /></Button>
@@ -32,26 +35,21 @@ function Profile() {
         <div className='my-5'>
           <div className='flex items-center gap-3 my-2'>
             <Mail />
-            <span>shyambabu_jayswal@yahoo.com</span>
+            <span>{user?.email}</span>
           </div>
           <div className='flex items-center gap-3 my-2'>
             <Contact />
-            <span>7084721408</span>
+            <span>{user?.phoneNumber}</span>
           </div>
         </div>
-        <div>
-          <h1 className='font-medium text-xl'>Skills</h1>
-          <div className='flex items-center gap-2 mt-2'>
-            {skills.map((item, index) => (
-              <span 
-                key={index} 
-                className="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-3 py-1 rounded-full"
-              >
-                {item}
-              </span>
-            ))}
-          </div>
-        </div>
+        <div className='my-5'>
+                    <h1 className='my-5'>Skills</h1>
+                    <div className='flex items-center gap-1'>
+                        {
+                            user?.profile?.skills.length !== 0 ? user?.profile?.skills.map((item, index) => <Badge key={index}>{item}</Badge>) : <span>NA</span>
+                        }
+                    </div>
+                </div>
         <div className='grid w-full max-w-sm items-center gap-1.5 my-5'>
           <Label className='text-md font-bold'>Resume</Label>
           {
