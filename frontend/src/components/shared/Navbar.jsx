@@ -1,8 +1,8 @@
 import { Popover, PopoverContent, PopoverTrigger } from '@radix-ui/react-popover';
-import React from 'react';
+
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
+import { Avatar,  AvatarImage } from '@radix-ui/react-avatar';
 import { LogOut, User2 } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { toast } from 'sonner';
@@ -59,18 +59,18 @@ function Navbar() {
             <Popover>
               <PopoverTrigger asChild>
                 <Avatar className="w-8 h-8 rounded-full cursor-pointer">
-                  <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                  <AvatarImage src={user?.profile?.profilePhoto} alt="@shadcn" />
                 </Avatar>
               </PopoverTrigger>
               <PopoverContent className="w-48 p-4">
                 <div className="flex flex-row items-center gap-2">
                   <Avatar className="cursor-pointer">
-                    <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                    <AvatarImage src={user?.profile?.profilePhoto} alt="@shadcn" />
                   </Avatar>
                   <div className="flex flex-col items-center gap-2">
-                    <h4 className="font-bold text-center">Shyam Babu Jayswal</h4>
+                    <h4 className="font-bold text-center">{user?.fullname}</h4>
                     <p className="text-sm text-muted-foreground text-center">
-                      Lorem ipsum dolor sit amet.
+                      {user?.profile?.bio}
                     </p>
                   </div>
                 </div>
