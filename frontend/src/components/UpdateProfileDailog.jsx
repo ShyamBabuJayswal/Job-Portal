@@ -49,6 +49,7 @@ function UpdateProfileDialog({ open, setOpen }) {
       formData.append("file", input.file);
     }
     try {
+      setLoading(true);
       const res = await axios.put(`${USER_API_END_POINT}/profile/update`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -63,6 +64,9 @@ function UpdateProfileDialog({ open, setOpen }) {
       console.log(error);
       toast.error(error.response.data.message);
     }
+    finally{
+      setLoading(false)
+    };
     setOpen(false);
   
   }
