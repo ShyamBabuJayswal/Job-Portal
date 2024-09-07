@@ -3,7 +3,8 @@ import React from 'react'
 import { Button } from './ui/button'
 
 function JobDescrption() {
-  const isApplied = false;
+  const isApplied = true;
+  
   return (
     <div className='max-w-7xl mx-8 my-10'>
      
