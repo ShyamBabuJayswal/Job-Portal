@@ -1,5 +1,5 @@
 import { Badge } from '../components/ui/badge'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button } from './ui/button'
 import { useParams } from 'react-router-dom';
 
@@ -12,10 +12,13 @@ import { toast } from 'sonner';
 
 function JobDescrption() {
   const {singleJob}  = useSelector(store => store.job)
-  const isApplied = singleJob?.applications?.some(application => application.applicant === user?._id) || false;
+  const isInitiallyApplied = singleJob?.applications?.some(application => application.applicant === user?._id) || false;
+  const [isApplied,setIsApplied] = useState(isInitiallyApplied);
+
   const params = useParams();
   const jobId = params.id; 
   const {user} =  useSelector(store => store.auth)
+  
 
 
   const dispatch = useDispatch();
@@ -23,7 +26,9 @@ function JobDescrption() {
       try {
          const res = await axios.get(`${APPLICATION_API_END_POINT}/apply/${jobId}`,{withCredentials:true})
          if(res.data.success){
-          dispatch(setSingleJob)
+         setIsApplied(true);//update the local step
+         const updatedSingleJobs = {...singleJob, applications:[...singleJob.applications,{applicant:user?._id}]}
+         dispatch(setSingleJob(updatedSingleJobs)); 
           toast.success(res.data.message);
          }
       } catch (error) {
@@ -43,6 +48,7 @@ function JobDescrption() {
 
         if(res.data.success){
             dispatch(setSingleJob(res.data.job));
+            setIsApplied(res.data.job.application.some(application => application.applicant ===user?._id))
         }
      } catch (error) {
         console.log(error)
@@ -70,7 +76,7 @@ function JobDescrption() {
             </Badge>
      </div>
         </div>
-        <Button onClick={isApplied ? null : applyJobHandler} disabled={isApplied} className={`rounded-lg ${isApplied? 'bg-gray-600 cursor-not-allowed':'bg-[#7209b7] hover:bg-[#5f32ad]'}`}>{isApplied ? 'Already Applied':'Apply Now'}</Button>
+        <Button onClick={isApplied ? null : applyJobHandler} disabled={isApplied} className={`rounded-lg ${isApplied ? 'bg-gray-600 cursor-not-allowed':'bg-[#7209b7] hover:bg-[#5f32ad]'}`}>{isApplied ? 'Already Applied':'Apply Now'}</Button>
     </div>
     <h1 className='border-b-2 border-b-gray-300 font-medium py-4'>Job Description</h1>
      <div className='my-4'>
