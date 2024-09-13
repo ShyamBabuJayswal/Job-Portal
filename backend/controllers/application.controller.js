@@ -76,33 +76,44 @@ export const getAppliedJobs=async(req,res)=>{
 }
 
 // admin see how manu user have applied for the job
-export const getApplicants =async(req,res)  => {
-    try {
-      const jobId = req.params.id;  
-      const job= await Job.findById(jobId).populate({
-        path:'applications',
-        options:{sort:{createdAt:-1}},
-        populate:{
-            path:'applicant',
+export const getApplicants = async (req, res) => {
+  try {
+    const jobId = req.params.id;
+    
+    // Fetch job by id and populate applications and applicant
+    const job = await Job.findById(jobId).populate({
+      path: 'applications',
+      options: { sort: { createdAt: -1 } },
+      populate: {
+        path: 'applicant',
+      },
+    });
 
-        }
-      })
-      if(!job){
-        return res.status(404).json({
-            meesage:'Job not found',
-            success:false
-        })
-      };
-      return res.status(200).json({
-        job,
-        success:true,
-      })
-
-    } catch (error) {
-      console.log(error);
-        
+    // Check if job exists
+    if (!job) {
+      return res.status(404).json({
+        message: 'Job not found',
+        success: false,
+      });
     }
-}
+
+    // Respond with job data and success status
+    return res.status(200).json({
+      job,
+      success: true,
+    });
+
+  } catch (error) {
+    console.error('Error fetching applicants:', error);
+    
+    // Respond with error status and message
+    return res.status(500).json({
+      message: 'Server error while fetching applicants',
+      success: false,
+    });
+  }
+};
+
 
 export const updateStats = async(req,res) =>{
     try {
