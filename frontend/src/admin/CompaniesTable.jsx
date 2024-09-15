@@ -27,7 +27,7 @@ const CompaniesTable = () => {
             </TableRow>
            </TableHeader>
            <TableBody>
-            <TableCell>
+            <TableCell className ='w-8'>
             <Avatar>
                 <AvatarImage src='https://www.thepixelfreak.co.uk/wp-content/uploads/2019/05/Entwined-M-Logo.png'>
 
@@ -40,9 +40,7 @@ const CompaniesTable = () => {
             <TableCell>
                 13-08-2024
             </TableCell>
-            <TableCell>
-                13-08-2024
-            </TableCell>
+           
             <TableCell className='text-right cursor-pointer'>
                <Popover>
                <PopoverTrigger><MoreHorizontal/></PopoverTrigger>
