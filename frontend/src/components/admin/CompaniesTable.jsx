@@ -3,7 +3,7 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import { Avatar, AvatarImage } from '@radix-ui/react-avatar';
 import { Popover } from '@radix-ui/react-popover';
 import { Edit2, MoreHorizontal } from 'lucide-react';
-import React from 'react'
+
 
 const CompaniesTable = () => {
   return (
