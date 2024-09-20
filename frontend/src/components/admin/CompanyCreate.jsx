@@ -17,6 +17,7 @@ const CompanyCreate = () => {
     const registerNewCompany = async() =>{
         try {
            const res=await axios.post(`${COMPANY_API_END_POINT}/register`,
+          
             { companyName },
             {
                 headers:
@@ -26,6 +27,7 @@ const CompanyCreate = () => {
            withCredentials:true
            
            });
+           
            if(res?.data?.success){
              toast.success(res.data.message);
              dispatch(setSingleCompany(res.data.company));
@@ -54,7 +56,7 @@ const CompanyCreate = () => {
             type='text'
             className='my-2'
             placeholder='JobHunt, Microsoft etc.'
-            value={companyName} 
+            
             onChange={(e) => setCompanyName(e.target.value)} 
            />
            <div className='flex items-center gap-2 my-10'>

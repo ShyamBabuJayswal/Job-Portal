@@ -2,39 +2,50 @@
 import {Company} from "../models/company.model.js"
 
 export const registerCompany = async (req, res) => {
-    try {
-      const { companyName } = req.body;
-      if (!companyName) {
-        return res.status(400).json({
-          message: "Company name is required",
-          success: false,
-        });
-      }
-      let company = await Company.findOne({ name: companyName });
-      if (company) {
-        return res.status(400).json({
-          message: "You can't register the same company",
-          success: false,
-        });
-      }
-      company = await Company.create({
-        name: companyName,
-        userId: req.id,
-      });
-  
-      return res.status(201).json({
-        message: "Company registered successfully",
-        company,
-        success: true,
-      });
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({
-        message: "Server error",
+  try {
+    const { companyName } = req.body;
+
+    // Check if company name is provided
+    if (!companyName) {
+      return res.status(400).json({
+        message: "Company name is required",
         success: false,
       });
     }
-  };
+
+    // Normalize the company name to handle case and whitespace issues
+    const normalizedCompanyName = companyName.trim().toLowerCase();
+ 
+
+    // Check if the company already exists in the database
+    let company = await Company.findOne({ name: normalizedCompanyName });
+    
+    if (company) {
+      return res.status(400).json({
+        message: "You can't register the same company",
+        success: false,
+      });
+    }
+
+    // Create the company if it doesn't exist
+    company = await Company.create({
+      name: normalizedCompanyName,
+      userId: req.id,
+    });
+
+    return res.status(201).json({
+      message: "Company registered successfully",
+      company,
+      success: true,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Server error",
+      success: false,
+    });
+  }
+};
 
 
 export const getCompany = async(req,res)=>{
