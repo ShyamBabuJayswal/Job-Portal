@@ -3,13 +3,15 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { setSearchCompanyByText } from '@/redux/companySlice' 
 
-import CompaniesTable from './CompaniesTable'
 import { useNavigate } from 'react-router-dom'
-import UseGetAllCompanies from '@/hooks/useGetAllCompanies'
+
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
+import AdminJobsTable from './AdminJobsTable'
+import UseGetAllAdminJob from '@/hooks/UseGetAllAdminJob'
 
 const AdminJobs = () => {
+  UseGetAllAdminJob();
   
   const [input,setInput] = useState("");
     const navigate = useNavigate();
@@ -31,7 +33,7 @@ const AdminJobs = () => {
 
             } >New Jobs</Button>
          </div>
-          <CompaniesTable/> 
+          <AdminJobsTable/> 
             
          </div>
     </div>
