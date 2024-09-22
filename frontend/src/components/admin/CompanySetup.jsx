@@ -8,9 +8,11 @@ import axios from 'axios'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { COMPANY_API_END_POINT } from '@/utils/constant'
 import { toast } from 'sonner'
+import { useSelector } from 'react-redux'
 
 
 const CompanySetup = () => {
+  const {singleCompany} = useSelector(store => store.company);
   const[input,setInput]=useState({
     name:"",
     description:"",
@@ -18,6 +20,7 @@ const CompanySetup = () => {
     location:"",
     file:null,
   });
+ 
   const [loading,setLoading] = useState(false);
   const params = useParams();
   const navigate = useNavigate();
@@ -64,7 +67,17 @@ try {
 finally{setLoading(false)};
     
 
-  }
+ }
+ useEffect(() => {
+   setInput({
+    name:singleCompany.name || "",
+    description:singleCompany.description ||"",
+    website: singleCompany.website || "",
+    location:singleCompany.location || "",
+    file:singleCompany.file || null,
+  
+   })
+ },[singleCompany])
   
 
 
