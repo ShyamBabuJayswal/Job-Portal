@@ -15,6 +15,7 @@ const PostJob = () => {
         requirement:"",
         salary:"",
         location:"",
+        jobType:"",
         experience:"",
         position:0,
         companyId:""
@@ -30,7 +31,7 @@ const PostJob = () => {
      setInput({...input, companyId:selectCompany._id});
   }
   const submitHandler =(e) =>{
-    e.prevnetDefault();
+    e.preventDefault();
     console.log(input);
 
   }
@@ -150,7 +151,7 @@ const PostJob = () => {
         {
             companies.map((company)=>{
              return(
-               <SelectItem value={company.name} key={company.id}>
+               <SelectItem value={company.name} key={company._id}>
                  {company.name}
                </SelectItem> 
              )
