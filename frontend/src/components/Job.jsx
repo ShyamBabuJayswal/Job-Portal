@@ -28,7 +28,7 @@ function Job({job}) {
         <div className='flex items-center gap-2 my-2'>
         <Button variant='outline' size='icon'>
             <Avatar>
-                <AvatarImage src='https://www.thepixelfreak.co.uk/wp-content/uploads/2019/05/Entwined-M-Logo.png'>
+                <AvatarImage src={job?.company?.logo}>
 
                 </AvatarImage>
             </Avatar>

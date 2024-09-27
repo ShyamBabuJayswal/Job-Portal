@@ -1,10 +1,17 @@
-import React, { useState } from 'react'
+import  { useState } from 'react'
 import Navbar from '../shared/Navbar'
 import { Label } from '../ui/label'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
 import { useSelector } from 'react-redux'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
+import { JOB_API_END_POINT } from '@/utils/constant'
+
+import { toast } from 'sonner'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
+import { Loader2 } from 'lucide-react'
+
 
 
 
@@ -21,6 +28,8 @@ const PostJob = () => {
         companyId:""
 
     });
+    const navigate = useNavigate();
+    const [loading,setLoading] = useState(false);
     const {companies} = useSelector(store => store.company);
     const changeEventHandler = (e) => {
         setInput({...input,[e.target.name]:e.target.value});
@@ -30,11 +39,30 @@ const PostJob = () => {
      const selectCompany = companies.find((company) =>  company.name.toLowerCase() === value.toLowerCase());
      setInput({...input, companyId:selectCompany._id});
   }
-  const submitHandler =(e) =>{
+  const submitHandler = async (e) =>{
     e.preventDefault();
-    console.log(input);
+   try {
+      setLoading(true);
+      const res = await axios.post(`${JOB_API_END_POINT}/post`,input,{
+        header:{
+          'Content-Type':'application/json'
+        },
+        withCredentials:true
+      });
+      if(res.data.success){
+        toast.success(res.data.message);
+        navigate("/admin/jobs")
+      }
+   } catch (error) {
+     toast.error(error.response.message);
+   }
+   finally{
+    setLoading(false);
+   }
+}
 
-  }
+
+
    
   return (
     <div>
@@ -164,7 +192,12 @@ const PostJob = () => {
             )
         }
       </div>
-      <Button className='w-full mt-4' >Post New Job</Button>
+      
+      {
+        loading ? <Button className='w-full my-4'><Loader2 className='mr-2 h-4 w-4 animate-spin'/>Please Wait</Button>
+       :
+       <Button type="submit" className='w-full my-2'>Post new job</Button>
+       }
       {
        companies.length === 0 && <p className='text-xs text-red-600 font-bold text-center my-3'>Please register a company first, before posting a job</p> 
      }
