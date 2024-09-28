@@ -15,6 +15,7 @@ import CompanyCreate from "./components/admin/CompanyCreate"
 import AdminJobs from "./components/admin/AdminJobs"
 import PostJob from "./components/admin/PostJob"
 import Applicants from "./components/admin/Applicants"
+import ProtectedRoute from "./components/admin/ProtectRoute"
 
 
  const appRouter = createBrowserRouter([
@@ -50,7 +51,7 @@ import Applicants from "./components/admin/Applicants"
   //for admin start from here
   {
     path:'/admin/companies',
-    element:<Companies/>
+    element: <ProtectedRoute><Companies/></ProtectedRoute>
   },
   {
     path:'/admin/companies/create',

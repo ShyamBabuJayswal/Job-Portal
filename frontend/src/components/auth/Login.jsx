@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../shared/Navbar';
 import { Label } from '@radix-ui/react-label';
 import { Input } from '../ui/input';
@@ -20,7 +20,7 @@ function Login() {
     password: "",
     role: "",
   });
-  const loading = useSelector(state => state.auth.loading);
+  const {user,loading} = useSelector(store => store.auth);
 
 
   const navigate = useNavigate();
@@ -55,6 +55,12 @@ function Login() {
       dispatch(setLoading(false));
     }
   };
+
+  useEffect(() => {
+    if(user){
+      navigate("/")
+    }
+  },[])
 
   return (
     <div>
