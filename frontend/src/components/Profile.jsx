@@ -8,13 +8,17 @@ import AppliedJobTable from './AppliedJobTable';
 import UpdateProfileDialog from './UpdateProfileDailog';
 import { useSelector } from 'react-redux';
 import { Badge } from './ui/badge';
+import useGetAllAppliedJob from '@/hooks/UseGetAllAppliedJob';
 
-const skills = ["Html", "CSS", "JavaScript", "Java"];
+
 const isHaveResume = true;
 
 function Profile() {
+  useGetAllAppliedJob();
+
   const [open, setOpen] = useState(false);
   const {user} = useSelector((state) => state.auth);
+
 
   return (
     <div>

@@ -1,12 +1,13 @@
 import React from 'react';
 import LatestJobCart from './LatestJobCart';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 function LatestJob() {
   // Change `store.jobs` to `store.job` to match the reducer name
   const { allJobs } = useSelector((state) => state.job);
   
-  
+  const navigate = useNavigate();
 
   return (
     <div className="max-w-7xl mx-auto my-20">
@@ -18,7 +19,7 @@ function LatestJob() {
           <span>Jobs not found</span>
         ) : (
           allJobs?.slice(0, 6).map((job) => (
-            <LatestJobCart key={job._id} job={job} />
+            <LatestJobCart     key={job._id} job={job} />
           ))
         )}
       </div>
