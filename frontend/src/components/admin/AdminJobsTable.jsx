@@ -1,30 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
-import { Avatar, AvatarImage } from '../ui/avatar';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { Edit2, Eye, MoreHorizontal } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 const AdminJobsTable = () => { 
-    const { allAdminJobs = [], searchJobByText } = useSelector(store => store.job); // Added default value for allAdminJobs
-    const [filterJobs, setFilterJobs] = useState(allAdminJobs);
+    const { allAdminJobs = [], searchJobByText } = useSelector(store => store.job); 
     const navigate = useNavigate();
 
-    useEffect(() => { 
-        if (allAdminJobs && Array.isArray(allAdminJobs)) {
-            const filteredJobs = allAdminJobs.filter((job) => {
-                if (!searchJobByText) {
-                    return true;
-                }
-                return (
-                    job?.title?.toLowerCase().includes(searchJobByText.toLowerCase()) ||
-                    job?.company?.name?.toLowerCase().includes(searchJobByText.toLowerCase())
-                );
-            });
-            setFilterJobs(filteredJobs);
-        }
-    }, [allAdminJobs, searchJobByText]);
+    // Memoize the filtered jobs to prevent unnecessary re-renders
+    const filterJobs = useMemo(() => {
+        if (!allAdminJobs || !Array.isArray(allAdminJobs)) return [];
+        return allAdminJobs.filter((job) => {
+            if (!searchJobByText) return true;
+            return (
+                job?.title?.toLowerCase().includes(searchJobByText.toLowerCase()) ||
+                job?.company?.name?.toLowerCase().includes(searchJobByText.toLowerCase())
+            );
+        });
+    }, [allAdminJobs, searchJobByText]); // Dependencies ensure recalculating only when these change
 
     return (
         <div>
@@ -75,6 +70,6 @@ const AdminJobsTable = () => {
             </Table>
         </div>
     );
-}
+};
 
 export default AdminJobsTable;

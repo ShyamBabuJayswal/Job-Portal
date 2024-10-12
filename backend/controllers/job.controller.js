@@ -14,7 +14,7 @@ export const postJob=async(req,res) =>{
     const job=await Job.create({
         title,
         description,
-    requirements:requirements.split(","),
+     requirements: requirements.split(","),
     salary:Number(salary),
     location,
     jobType,
@@ -36,33 +36,25 @@ export const postJob=async(req,res) =>{
 
 }
 
-export const getAllJobs=async(req,res)=>{
+export const getAllJobs = async (req, res) => {
     try {
-        const keyword=req.query.keyword || "";
-        const query={
-            $or:[
-                {title:{$regex:keyword, $options:"i"}},
-         {description:{$regex:keyword, $options:"i"}},
-            ]
-        };
-        const jobs=await Job.find(query).populate({
-            path:"company"
-        }).sort({createdAt:-1});
-         if(!jobs || jobs.length === 0){
+        const jobs = await Job.find().populate('company').sort({ createdAt: -1 });
+        console.log("Jobs fetched:", jobs); // Log the fetched jobs
+        if (!jobs || jobs.length === 0) {
             return res.status(404).json({
-                message:"Jobs NOt Found",
-                success:false,
-            })
-         }
-         return res.status(200).json({  
+                message: "No jobs found",
+                success: false,
+            });
+        }
+        return res.status(200).json({
             jobs,
             success: true,
-          });
+        });
     } catch (error) {
         console.log(error);
-        
     }
-}
+};
+
 
 
 export const getJobById =async(req,res)=>{
