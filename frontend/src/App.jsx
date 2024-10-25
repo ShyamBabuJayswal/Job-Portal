@@ -36,9 +36,10 @@ import ProtectedRoute from "./components/admin/ProtectRoute"
     element:<Jobs/>
   },
   {
-  path:"/description/:jobId",
-   element:<JobDescription />
-},
+    path: "/description/:id", 
+    element: <JobDescription />,
+  },
+  
 
   {
     path:'/browse',
